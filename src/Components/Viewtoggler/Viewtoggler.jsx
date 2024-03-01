@@ -1,6 +1,9 @@
-import React from 'react'
+import React from "react";
 
-function Viewtoggler() {
+function Viewtoggler({ togglePageView }) {
+  // const handleOnClick = (e) => {
+  //   return togglePageView(e);
+  // };
   return (
     <>
       <button type="button" name="list" onClick={togglePageView}>
@@ -13,4 +16,4 @@ function Viewtoggler() {
   );
 }
 
-export default Viewtoggler
+export default Viewtoggler;
