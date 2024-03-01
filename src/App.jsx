@@ -51,10 +51,13 @@ function App() {
   const handleCoderChange = (e) => {
     setNewcoder({ ...newcoder, [e.target.name]: e.target.value });
   };
-  useEffect(() => {
-    console.log(newcoder);
-  }, [newcoder]);
+  // useEffect(() => {
+  //   console.log(newcoder);
+  // }, [newcoder]);
   const handleAdd = (newcoder) => {
+    if (newcoder.name.trim() === "" || newcoder.position.trim() === "") {
+      return;
+    }
     setcoderList((coderList) => {
       return [...coderList, newcoder];
     });
@@ -62,7 +65,7 @@ function App() {
     const resetcoder = {
       id: newCradId,
       name: "",
-      position: "",
+      position: newcoder.position,
     };
     setNewcoder(resetcoder);
   };
@@ -90,7 +93,11 @@ function App() {
       }
     }
     setmanPower(power);
-    validation(workCalculated, power);
+    if (workCalculated === 0) {
+      setValidationResult(false);
+    } else {
+      validation(workCalculated, power);
+    }
   }
   //#endregion claculating ManPower
   //
@@ -101,21 +108,24 @@ function App() {
     let work;
     if (temp.days && temp.length) {
       work = parseInt(temp.length) / parseInt(temp.days);
+      validation(work, manPower);
     } else if (temp.length && !temp.days) {
       work = parseInt(temp.length);
+      validation(work, manPower);
     } else {
       work = 0;
+      setValidationResult(false);
     }
     console.log(work);
     setWorkCalculated(work);
-    validation(work, manPower);
   };
   //
   //#region Validation
-  const [validationResult, setValidationResult] = useState(true);
+  const [validationResult, setValidationResult] = useState(false);
   function validation(work, power) {
     console.log(work);
     console.log(power);
+
     setValidationResult(work === NaN ? true : work <= power ? true : false);
     // if (work !== NaN) {
     //   setValidationResult(work <= power ? true : false);
@@ -135,7 +145,8 @@ function App() {
 
     setProjectDesign(tempProject);
     setWorkCalculated(0);
-    validation(workCalculated, manPower);
+    // validation(workCalculated, manPower);
+    setValidationResult(false);
   };
   //#endregion Reset ProjectView
   //
