@@ -1,0 +1,19 @@
+ul {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  background-color: rgb(177, 252, 252);
+  list-style: none;
+}
+li {
+  width: 100%;
+  margin: auto;
+}
+li:nth-child(even) {
+  background-color: aqua;
+}
+li:nth-child(odd) {
+  background-color: rgb(177, 252, 252);
+}

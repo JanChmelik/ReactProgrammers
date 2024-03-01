@@ -1,0 +1,29 @@
+{
+  "coders": [
+    {
+      "id": 1,
+      "name": "John Smith",
+      "position": "Senior"
+    },
+    {
+      "id": 2,
+      "name": "Alice Johnson",
+      "position": "Senior"
+    },
+    {
+      "id": 3,
+      "name": "Bob Anderson",
+      "position": "Junior"
+    },
+    {
+      "id": 4,
+      "name": "Eva Martinez",
+      "position": "Junior"
+    },
+    {
+      "id": 5,
+      "name": "Chris Davis",
+      "position": "Junior"
+    }
+  ]
+}
