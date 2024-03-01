@@ -12,7 +12,7 @@ function ProjectForm({ validation, inModel, handleChange, handleResetClick }) {
             type="number"
             min={0}
             placeholder="0"
-            name="sizing"
+            name="length"
             value={inModel.length}
             onChange={handleChange}
             id="linesOfCode"
@@ -23,8 +23,8 @@ function ProjectForm({ validation, inModel, handleChange, handleResetClick }) {
           <input
             type="number"
             min={1}
-            placeholder="1"
-            name="sizing"
+            // placeholder="1"
+            name="days"
             value={inModel.days}
             onChange={handleChange}
             id="timeLimit"
@@ -33,6 +33,7 @@ function ProjectForm({ validation, inModel, handleChange, handleResetClick }) {
         <button
           type="button"
           className={validation ? "green" : "red"}
+          disabled={!validation}
           onClick={handleResetClick}>
           Do it
         </button>

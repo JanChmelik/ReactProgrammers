@@ -1,19 +1,19 @@
-ul {
-  width: 30%;
+.ul {
+  width: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-items: center;
-  background-color: rgb(177, 252, 252);
+  background-color: rgba(184, 217, 217, 0.501);
   list-style: none;
 }
-li {
+.li {
   width: 100%;
   margin: auto;
 }
-li:nth-child(even) {
-  background-color: aqua;
+.li:nth-child(even) {
+  background-color: rgba(138, 156, 156, 0.688);
 }
-li:nth-child(odd) {
-  background-color: rgb(177, 252, 252);
+.li:nth-child(odd) {
+  background-color: rgba(184, 217, 217, 0.501);
 }

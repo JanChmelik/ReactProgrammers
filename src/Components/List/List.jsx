@@ -6,14 +6,14 @@ const List = ({ inList, handleDelete }) => {
     return handleDelete(e);
   };
   return (
-    <ul>
+    <div className="ul">
       {inList.map((coder) => (
-        <li key={coder.id}>
+        <div className="li" key={coder.id}>
           {coder.name} - {coder.position}
           <button onClick={() => onClickDelete(coder.id)}>X</button>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 

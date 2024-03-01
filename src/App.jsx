@@ -13,7 +13,7 @@ function App() {
   //#region PageViewToggler
   const [activeView, setActiveView] = useState(0);
   function handleToggle(e) {
-    // calcpower();
+    calcPower();
     switch (e.target.name) {
       case "list": {
         setActiveView(1);
@@ -29,6 +29,7 @@ function App() {
       }
     }
   }
+
   //#endregion PageViewToggler
   //
   //#region List
@@ -39,7 +40,7 @@ function App() {
         ? Math.max(...coderList.map((coder) => coder.id)) + 1
         : 1,
     name: "",
-    sizing: "",
+    position: "",
   });
   const handlecoderDelete = (idToDelete) => {
     setcoderList(coderList.filter((coder) => coder.id !== idToDelete));
@@ -68,45 +69,59 @@ function App() {
   //#endregion AddForm
   //
   //#region ProjectView
-  const [wokrCalculated, setWorkCalculated] = useState(0);
+  const [workCalculated, setWorkCalculated] = useState(0);
   const [projectDesign, setProjectDesign] = useState({
     length: "",
     days: "",
   });
   //#region claculating ManPower
+  // calculated on every viewToggle
   const [manPower, setmanPower] = useState(0);
   function calcPower() {
     let power = 0;
     for (let i = 0; i < coderList.length; i++) {
       const element = coderList[i];
       if (element.position === "Junior") {
-        power += 10;
+        power += 100;
       } else if (element.position === "Senior") {
-        power += 20;
+        power += 200;
       } else {
         power += 0;
       }
     }
     setmanPower(power);
+    validation(workCalculated, power);
   }
   //#endregion claculating ManPower
   //
   const calcProject = (e) => {
-    let temp = { ...projectDesign, [e.target.id]: e.target.value };
+    let temp = { ...projectDesign, [e.target.name]: e.target.value };
+    console.log(`${temp.days}`);
     setProjectDesign(temp);
-    let work = parseInt(projectDesign.length) / parseInt(projectDesign.days);
+    let work;
+    if (temp.days && temp.length) {
+      work = parseInt(temp.length) / parseInt(temp.days);
+    } else if (temp.length && !temp.days) {
+      work = parseInt(temp.length);
+    } else {
+      work = 0;
+    }
+    console.log(work);
     setWorkCalculated(work);
-    validation(wokrCalculated, manPower);
+    validation(work, manPower);
   };
   //
   //#region Validation
-  const [validationResult, setValidationResult] = useState(false);
+  const [validationResult, setValidationResult] = useState(true);
   function validation(work, power) {
-    if (work != NaN && work != 0) {
-      setValidationResult(work >= power ? true : false);
-    } else {
-      setValidationResult(false);
-    }
+    console.log(work);
+    console.log(power);
+    setValidationResult(work === NaN ? true : work <= power ? true : false);
+    // if (work !== NaN) {
+    //   setValidationResult(work <= power ? true : false);
+    // } else {
+    //   setValidationResult(true);
+    // }
   }
   //#endregion Validation
   //
@@ -117,9 +132,10 @@ function App() {
       length: "",
       days: "",
     };
+
     setProjectDesign(tempProject);
     setWorkCalculated(0);
-    validation(wokrCalculated, manPower);
+    validation(workCalculated, manPower);
   };
   //#endregion Reset ProjectView
   //
