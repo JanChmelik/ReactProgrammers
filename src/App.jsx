@@ -6,13 +6,14 @@ import rawList from "./Data/programmersList.json";
 import Toggler from "./Components/Viewtoggler/Viewtoggler";
 import List from "./Components/List/List";
 import AddForm from "./Components/AddForm/AddForm";
+import ProjectView from "./Components/ProjectView/ProjectForm";
 //
 function App() {
   //
   //#region PageViewToggler
   const [activeView, setActiveView] = useState(0);
   function handleToggle(e) {
-    // calcVolume();
+    // calcpower();
     switch (e.target.name) {
       case "list": {
         setActiveView(1);
@@ -38,7 +39,7 @@ function App() {
         ? Math.max(...coderList.map((coder) => coder.id)) + 1
         : 1,
     name: "",
-    size: "",
+    sizing: "",
   });
   const handlecoderDelete = (idToDelete) => {
     setcoderList(coderList.filter((coder) => coder.id !== idToDelete));
@@ -60,11 +61,70 @@ function App() {
     const resetcoder = {
       id: newCradId,
       name: "",
-      size: "",
+      position: "",
     };
     setNewcoder(resetcoder);
   };
   //#endregion AddForm
+  //
+  //#region ProjectView
+  const [wokrCalculated, setWorkCalculated] = useState(0);
+  const [projectDesign, setProjectDesign] = useState({
+    length: "",
+    days: "",
+  });
+  //#region claculating ManPower
+  const [manPower, setmanPower] = useState(0);
+  function calcPower() {
+    let power = 0;
+    for (let i = 0; i < coderList.length; i++) {
+      const element = coderList[i];
+      if (element.position === "Junior") {
+        power += 10;
+      } else if (element.position === "Senior") {
+        power += 20;
+      } else {
+        power += 0;
+      }
+    }
+    setmanPower(power);
+  }
+  //#endregion claculating ManPower
+  //
+  const calcProject = (e) => {
+    let temp = { ...projectDesign, [e.target.id]: e.target.value };
+    setProjectDesign(temp);
+    let work = parseInt(projectDesign.length) / parseInt(projectDesign.days);
+    setWorkCalculated(work);
+    validation(wokrCalculated, manPower);
+  };
+  //
+  //#region Validation
+  const [validationResult, setValidationResult] = useState(false);
+  function validation(work, power) {
+    if (work != NaN && work != 0) {
+      setValidationResult(work >= power ? true : false);
+    } else {
+      setValidationResult(false);
+    }
+  }
+  //#endregion Validation
+  //
+  //#region Reset ProjectView
+  const handleReset = () => {
+    const tempProject = {
+      ...projectDesign,
+      length: "",
+      days: "",
+    };
+    setProjectDesign(tempProject);
+    setWorkCalculated(0);
+    validation(wokrCalculated, manPower);
+  };
+  //#endregion Reset ProjectView
+  //
+  //#endregion ProjectView
+
   //
   return (
     <div className="App">
@@ -72,6 +132,7 @@ function App() {
       <Toggler togglePageView={handleToggle} />
       {activeView === 1 && (
         <>
+          <h3>Your team</h3>
           <List inList={coderList} handleDelete={handlecoderDelete} />
           <AddForm
             data={newcoder}
@@ -80,7 +141,16 @@ function App() {
           />
         </>
       )}
-      {activeView === 2 && <>Form</>}
+      {activeView === 2 && (
+        <>
+          <ProjectView
+            inModel={projectDesign}
+            handleChange={calcProject}
+            validation={validationResult}
+            handleResetClick={handleReset}
+          />
+        </>
+      )}
     </div>
   );
 }
